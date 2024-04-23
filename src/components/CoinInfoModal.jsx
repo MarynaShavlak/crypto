@@ -1,44 +1,65 @@
-import {Flex, Tag, Typography, Divider} from 'antd';
+import { Tag, Typography, Divider } from 'antd';
 import CoinInfo from './CoinInfo';
-const CoinInfoModal = ({coin}) => {
-    return ( 
-        <div>
-    <CoinInfo coin={coin} symbol/>
-    <Divider/>
+
+const PriceChangeTag = ({ label, value }) => (
+  <>
+    <Typography.Text>{label}: </Typography.Text>
+    <Tag color={value > 0 ? 'green' : 'red'}>{value}%</Tag>
+  </>
+);
+
+const PriceDetails = ({ coin }) => (
+  <>
     <Typography.Paragraph>
-        <Typography.Text>1 hour: </Typography.Text>
-        <Tag color={coin.priceChange1h > 0 ? 'green' : 'red'}>
-            {coin.priceChange1h}%
-        </Tag>
-        <Typography.Text>1 day: </Typography.Text>
-        <Tag color={coin.priceChange1d > 0 ? 'green' : 'red'}>
-            {coin.priceChange1d}%
-        </Tag>
-        <Typography.Text>1 week: </Typography.Text>
-        <Tag color={coin.priceChange1w > 0 ? 'green' : 'red'}>
-            {coin.priceChange1w}%
-        </Tag>
+      <PriceChangeTag label="1 hour" value={coin.priceChange1h} />
+      <PriceChangeTag label="1 day" value={coin.priceChange1d} />
+      <PriceChangeTag label="1 week" value={coin.priceChange1w} />
     </Typography.Paragraph>
+  </>
+);
+
+const CoinPrice = ({ coin }) => (
+  <>
     <Typography.Paragraph>
-        <Typography.Text>Price: </Typography.Text>
-        {coin.price.toFixed(2)}$
-    </Typography.Paragraph>
-    <Typography.Paragraph>
-        <Typography.Text>Price BTC: </Typography.Text>
-        {coin.priceBtc}$
+      <Typography.Text>Price: </Typography.Text>
+      {coin.price.toFixed(2)}$
     </Typography.Paragraph>
     <Typography.Paragraph>
-        <Typography.Text>Market Cap: </Typography.Text>
-        {coin.marketCap}$
+      <Typography.Text>Price BTC: </Typography.Text>
+      {coin.priceBtc}$
     </Typography.Paragraph>
-        {coin.contractAddress && (
-        <Typography.Paragraph>    
- <Typography.Text>Contract Address: </Typography.Text>
- {coin.contractAddress}            
+    <Typography.Paragraph>
+      <Typography.Text>Market Cap: </Typography.Text>
+      {coin.marketCap}$
     </Typography.Paragraph>
-     )} 
-    </div>
-        );
-}
- 
+  </>
+);
+
+const ContractAddress = ({ coin }) => (
+  <>
+    {coin.contractAddress && (
+      <Typography.Paragraph>
+        <Typography.Text>Contract Address: </Typography.Text>
+        {coin.contractAddress}
+      </Typography.Paragraph>
+    )}
+  </>
+);
+
+const CoinDetails = ({ coin }) => (
+  <>
+    <PriceDetails coin={coin} />
+    <CoinPrice coin={coin} />
+    <ContractAddress coin={coin} />
+  </>
+);
+
+const CoinInfoModal = ({ coin }) => (
+  <>
+    <CoinInfo coin={coin} symbol />
+    <Divider />
+    <CoinDetails coin={coin} />
+  </>
+);
+
 export default CoinInfoModal;
