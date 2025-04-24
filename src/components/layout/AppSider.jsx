@@ -65,7 +65,7 @@ const AppSider = () => {
   const { assets } = useContext(CryptoContext);
 
   const siderContent = assets.map(asset => (
-    <AssetCard key={asset.id} asset={asset} />
+    <AssetCard key={asset.id + Math.random() } asset={asset} />
   ));
 
   return (
